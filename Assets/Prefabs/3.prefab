@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6289150416556684885
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 883445468823458014, guid: 3580abcf46019414f93c757217c104c7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.46
+      objectReference: {fileID: 0}
+    - target: {fileID: 883445468823458014, guid: 3580abcf46019414f93c757217c104c7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 883445468823458014, guid: 3580abcf46019414f93c757217c104c7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 883445468823458014, guid: 3580abcf46019414f93c757217c104c7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 883445468823458014, guid: 3580abcf46019414f93c757217c104c7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 883445468823458014, guid: 3580abcf46019414f93c757217c104c7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 883445468823458014, guid: 3580abcf46019414f93c757217c104c7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 883445468823458014, guid: 3580abcf46019414f93c757217c104c7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 883445468823458014, guid: 3580abcf46019414f93c757217c104c7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 883445468823458014, guid: 3580abcf46019414f93c757217c104c7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1155594936494828355, guid: 3580abcf46019414f93c757217c104c7, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5366f5a69a2b5884ea544223eed7e009, type: 3}
+    - target: {fileID: 1155594936494828355, guid: 3580abcf46019414f93c757217c104c7, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6834472851182823485, guid: 3580abcf46019414f93c757217c104c7, type: 3}
+      propertyPath: m_Name
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7915045782669144951, guid: 3580abcf46019414f93c757217c104c7, type: 3}
+      propertyPath: cardText
+      value: BIGGEST NUMBSTER IN THE STACK EATS ODD NUMBSTER
+      objectReference: {fileID: 0}
+    - target: {fileID: 7915045782669144951, guid: 3580abcf46019414f93c757217c104c7, type: 3}
+      propertyPath: cardValue
+      value: 3
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3580abcf46019414f93c757217c104c7, type: 3}
