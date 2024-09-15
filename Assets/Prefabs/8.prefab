@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 35629b86c47ee834e818c24489714a52, type: 3}
     - target: {fileID: 3422278541920143024, guid: 466f7d16f2e25cd478b7d42284c66455, type: 3}
       propertyPath: m_SortingOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3690066242270575917, guid: 466f7d16f2e25cd478b7d42284c66455, type: 3}
       propertyPath: m_LocalPosition.x
@@ -62,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5954035231662448260, guid: 466f7d16f2e25cd478b7d42284c66455, type: 3}
       propertyPath: cardText
-      value: IF ON TOP O FTHE STACK AT THE END OF A TURN, YOU LOSE!
+      value: IF ON TOP OF THE STACK AT THE END OF A TURN, YOU LOSE!
       objectReference: {fileID: 0}
     - target: {fileID: 5954035231662448260, guid: 466f7d16f2e25cd478b7d42284c66455, type: 3}
       propertyPath: cardValue

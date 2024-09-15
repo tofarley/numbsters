@@ -10,26 +10,16 @@ public class Deck : MonoBehaviour
 
     [SerializeField] private GameObject mouthCard;
 
-    private List<Card> shuffledDeck;
-
     public float cardSpacing = 2.0f; // Spacing between cards
     public float dealingDuration = 0.5f; // Time to deal all cards
 
-    // Start is called before the first frame update
     void Start()
     {
-        //Instantiate(myPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         DealCards();
     }
 
     void DealCards()
     {
-        // Ensure we have at least 6 cards
-        if (cards.Count < 6)
-        {
-            Debug.LogError("Not enough cards to deal!");
-            return;
-        }
 
         // Shuffle the cards
         cards = Shuffle(cards);
@@ -42,6 +32,10 @@ public class Deck : MonoBehaviour
         Vector3 startPos = new Vector3(-totalWidth / 2, 0, 0);
 
         Vector3 offscreen = new Vector3(0, -10, 0);
+
+        GameObject cardRow = GameObject.Find("CardRow"); // Find the parent object in the scene
+
+        List<GameObject> cardsInPlay = new List<GameObject>();
         // Deal 6 cards
         for (int i = 0; i < 7; i++)
         {
@@ -56,12 +50,18 @@ public class Deck : MonoBehaviour
             Vector3 targetPosition = startPos + new Vector3(cardSpacing * i, 0, 0);
 
             GameObject currentCard = Instantiate(card, offscreen, Quaternion.identity);
+
+            currentCard.transform.SetParent(cardRow.transform);
             // Set the initial position below the screen
             //card.transform.position = targetPosition - new Vector3(0, 10, 0);
+            cardsInPlay.Add(currentCard);
 
+            cardRow.GetComponent<DraggableRow>().rowObjects.Add(currentCard);
             // Animate the card to its final position
             StartCoroutine(MoveOverTime(currentCard, targetPosition, 0.5f));
         }
+        //cardRow.GetComponent<DraggableRow>().rowObjects = cardsInPlay;
+        //cardRow.GetComponent<DraggableRow>().ArrangeObjects();
     }
 
     IEnumerator MoveOverTime(GameObject card, Vector3 targetPosition, float duration)
@@ -77,6 +77,9 @@ public class Deck : MonoBehaviour
         }
         card.transform.position = targetPosition;
         yield return new WaitForSeconds(0.1f);
+        // GameObject cardRow = GameObject.Find("CardRow");
+        // cardRow.GetComponent<DraggableRow>().PopulateRow();
+
     }
 
     System.Collections.IEnumerator MoveCardToPosition(GameObject card, Vector3 targetPosition, float delay)
