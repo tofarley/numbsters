@@ -17,10 +17,10 @@ public class Deck : MonoBehaviour
 
     void Start()
     {
-        DealCards();
+        //DealCards();
     }
 
-    void DealCards()
+    public void DealCards()
     {
         // Shuffle the cards
         cards = Shuffle(cards);

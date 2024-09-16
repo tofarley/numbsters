@@ -39,15 +39,6 @@ public class Card : MonoBehaviour
         tooltipObject = GameObject.FindGameObjectWithTag("ToolTip").GetComponent<TMP_Text>();
     }
 
-    // Update is called once per frame
-    void Eat(int bottomCard, int topCard)
-    {
-        if (bottomCard == topCard)
-        {
-            Debug.Log("Eat");
-        }
-    }
-
     private void OnMouseEnter()
     {
         ShowTooltip();
@@ -68,13 +59,5 @@ public class Card : MonoBehaviour
     {
         tooltipObject.SetText("");
         //tooltipObject.transform.parent.gameObject.SetActive(false);
-    }
-
-    private void Update()
-    {
-        // if (tooltipObject.transform.parent.gameObject.activeSelf)
-        // {
-        //     tooltipObject.transform.position = Input.mousePosition;
-        // }
     }
 }
