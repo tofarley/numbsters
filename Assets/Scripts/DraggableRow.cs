@@ -47,6 +47,8 @@ public class DraggableRow : MonoBehaviour
 
         for (int i = 0; i < rowObjects.Count; i++)
         {
+            SpriteRenderer spriteRenderer = rowObjects[i].GetComponent<SpriteRenderer>();
+            spriteRenderer.sortingOrder = 0;
             Vector3 targetPosition = startPos + new Vector3(cardSpacing * i, 0, 0);
             rowObjects[i].transform.position = targetPosition;
             //rowObjects[i].transform.position = startPos + Vector3.right * i * cardSpacing;
@@ -65,9 +67,8 @@ public class DraggableRow : MonoBehaviour
 
         if (hit.collider != null)
         {
-            Debug.Log("Target Position: " + hit.collider.gameObject.transform.position);
             SpriteRenderer spriteRenderer = hit.collider.gameObject.GetComponent<SpriteRenderer>();
-            spriteRenderer.sortingOrder = rowObjects.Count + 1;
+            spriteRenderer.sortingOrder = 1;
             return hit.collider.gameObject;
         }
         return null;

@@ -61,12 +61,13 @@ public class Card : MonoBehaviour
     private void ShowTooltip()
     {
         tooltipObject.SetText(cardText);
-        tooltipObject.transform.parent.gameObject.SetActive(true);
+        //tooltipObject.transform.parent.gameObject.SetActive(true);
     }
 
     private void HideTooltip()
     {
-        tooltipObject.transform.parent.gameObject.SetActive(false);
+        tooltipObject.SetText("");
+        //tooltipObject.transform.parent.gameObject.SetActive(false);
     }
 
     private void Update()
