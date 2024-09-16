@@ -22,9 +22,10 @@ public class Deck : MonoBehaviour
 
     void DealCards()
     {
-
         // Shuffle the cards
         cards = Shuffle(cards);
+
+        // Insert the mouth card at a random position in the top 7 cards.
         cards.Insert(UnityEngine.Random.Range(0, 6), mouthCard);
 
         // Calculate the total width of all cards
@@ -33,35 +34,17 @@ public class Deck : MonoBehaviour
         // Calculate the starting position (left-most card)
         Vector3 startPos = new Vector3(-totalWidth / 2, 0, 0);
 
-        Vector3 offscreen = new Vector3(0, -10, 0);
-
         GameObject cardRow = GameObject.Find("CardRow"); // Find the parent object in the scene
 
-        // Deal 6 cards
+        // Deal 7 cards
         for (int i = 0; i < 7; i++)
         {
-
             GameObject card = cards[i];
             cardsDealt++;
 
-            SpriteRenderer spriteRenderer = card.GetComponent<SpriteRenderer>();
-            // float spriteWidth = spriteRenderer.bounds.size.x;
-
-            spriteRenderer.sortingOrder = 0;
-
             Vector3 targetPosition = startPos + new Vector3(cardSpacing * i, 0, 0);
-
-            GameObject currentCard = Instantiate(card, offscreen, Quaternion.identity);
-
-            currentCard.transform.SetParent(cardRow.transform);
-            // Set the initial position below the screen
-            //card.transform.position = targetPosition - new Vector3(0, 10, 0);
-
-            cardRow.GetComponent<DraggableRow>().rowObjects.Add(currentCard);
-            // Animate the card to its final position
-            StartCoroutine(MoveOverTime(currentCard, targetPosition, 0.5f));
+            InstantiateAndPositionCard(card, targetPosition, cardRow);
         }
-
     }
 
     IEnumerator MoveOverTime(GameObject card, Vector3 targetPosition, float duration)
@@ -77,8 +60,6 @@ public class Deck : MonoBehaviour
         }
         card.transform.position = targetPosition;
         yield return new WaitForSeconds(0.1f);
-        // GameObject cardRow = GameObject.Find("CardRow");
-        // cardRow.GetComponent<DraggableRow>().PopulateRow();
 
     }
 
@@ -86,41 +67,37 @@ public class Deck : MonoBehaviour
     {
         GameObject cardRow = GameObject.Find("CardRow");
 
-
-        float totalWidth = cardSpacing * cardRow.GetComponent<DraggableRow>().rowObjects.Count; // 5 spaces between 6 cards
+        float totalWidth = cardSpacing * cardRow.GetComponent<DraggableRow>().rowObjects.Count;
 
         // Calculate the starting position (left-most card)
         Vector3 startPos = new Vector3(-totalWidth / 2, 0, 0);
 
-        Vector3 offscreen = new Vector3(0, -10, 0);
-        // Draw a card from the deck
-
         GameObject card = cards[cardsDealt];
         cardsDealt++;
-        SpriteRenderer spriteRenderer = card.GetComponent<SpriteRenderer>();
-        // float spriteWidth = spriteRenderer.bounds.size.x;
-
-        spriteRenderer.sortingOrder = 0;
 
         Vector3 targetPosition = startPos + new Vector3(cardSpacing * cardRow.GetComponent<DraggableRow>().rowObjects.Count, 0, 0);
+        InstantiateAndPositionCard(card, targetPosition, cardRow);
 
-        GameObject currentCard = Instantiate(card, offscreen, Quaternion.identity);
-
-        currentCard.transform.SetParent(cardRow.transform);
-        // Set the initial position below the screen
-        //card.transform.position = targetPosition - new Vector3(0, 10, 0);
-        //cardsInPlay.Add(currentCard);
-
-        cardRow.GetComponent<DraggableRow>().rowObjects.Add(currentCard);
-        // Animate the card to its final position
-        StartCoroutine(MoveOverTime(currentCard, targetPosition, 0.5f));
         cardRow.GetComponent<DraggableRow>().ArrangeObjects();
     }
 
+    private void InstantiateAndPositionCard(GameObject card, Vector3 targetPosition, GameObject parent)
+    {
+        Vector3 offscreen = new Vector3(0, -10, 0);
+
+        SpriteRenderer spriteRenderer = card.GetComponent<SpriteRenderer>();
+        spriteRenderer.sortingOrder = 0;
+
+        GameObject currentCard = Instantiate(card, offscreen, Quaternion.identity);
+        currentCard.transform.SetParent(parent.transform);
+
+        parent.GetComponent<DraggableRow>().rowObjects.Add(currentCard);
+
+        StartCoroutine(MoveOverTime(currentCard, targetPosition, 0.5f));
+    }
     public List<T> Shuffle<T>(List<T> list)
     {
         List<T> shuffledList = list.OrderBy(x => UnityEngine.Random.value).ToList();
-        // Insert the mouth card at a random position in the top six cards.
         return shuffledList;
     }
 }

@@ -6,6 +6,8 @@ public class DraggableRow : MonoBehaviour
     public List<GameObject> rowObjects = new List<GameObject>();
     private GameObject draggedObject;
     private Vector3 offset;
+    private GameObject firstSelectedObject;
+    private GameObject secondSelectedObject;
 
     void Start()
     {
@@ -20,19 +22,40 @@ public class DraggableRow : MonoBehaviour
             if (draggedObject != null)
             {
                 offset = draggedObject.transform.position - GetMouseWorldPosition();
+                ScaleCard(draggedObject, 1.2f); // Scale up the card
             }
         }
 
         if (Input.GetMouseButton(0) && draggedObject != null)
         {
             Vector3 newPosition = GetMouseWorldPosition() + offset;
-            draggedObject.transform.position = new Vector3(newPosition.x, transform.position.y, transform.position.z);
+            draggedObject.transform.position = new Vector3(newPosition.x, draggedObject.transform.position.y, draggedObject.transform.position.z);
         }
 
         if (Input.GetMouseButtonUp(0) && draggedObject != null)
         {
             RearrangeObjects();
+            ScaleCard(draggedObject, 1.0f); // Reset the scale
             draggedObject = null;
+        }
+
+        if (Input.GetMouseButtonDown(1)) // Right-click to select cards for swapping
+        {
+            GameObject clickedObject = GetClickedObject();
+            if (clickedObject != null)
+            {
+                if (firstSelectedObject == null)
+                {
+                    firstSelectedObject = clickedObject;
+                    HighlightCard(firstSelectedObject, true);
+                }
+                else if (secondSelectedObject == null)
+                {
+                    secondSelectedObject = clickedObject;
+                    HighlightCard(secondSelectedObject, true);
+                    SwapSelectedCards();
+                }
+            }
         }
     }
 
@@ -51,7 +74,6 @@ public class DraggableRow : MonoBehaviour
             spriteRenderer.sortingOrder = 0;
             Vector3 targetPosition = startPos + new Vector3(cardSpacing * i, 0, 0);
             rowObjects[i].transform.position = targetPosition;
-            //rowObjects[i].transform.position = startPos + Vector3.right * i * cardSpacing;
         }
     }
 
@@ -81,13 +103,49 @@ public class DraggableRow : MonoBehaviour
         return Camera.main.ScreenToWorldPoint(mousePosition);
     }
 
-    public void PopulateRow()
+    void SwapSelectedCards()
     {
-        foreach (Transform child in transform)
+        if (firstSelectedObject != null && secondSelectedObject != null)
         {
-            rowObjects.Add(child.gameObject);
-            //child is your child transform
+            int firstIndex = rowObjects.IndexOf(firstSelectedObject);
+            int secondIndex = rowObjects.IndexOf(secondSelectedObject);
+
+            if (firstIndex != -1 && secondIndex != -1)
+            {
+                SwapCards(firstIndex, secondIndex);
+            }
+
+            HighlightCard(firstSelectedObject, false);
+            HighlightCard(secondSelectedObject, false);
+
+            firstSelectedObject = null;
+            secondSelectedObject = null;
         }
+    }
+
+    void SwapCards(int index1, int index2)
+    {
+        GameObject temp = rowObjects[index1];
+        rowObjects[index1] = rowObjects[index2];
+        rowObjects[index2] = temp;
+
         ArrangeObjects();
+    }
+    void HighlightCard(GameObject card, bool highlight)
+    {
+        SpriteRenderer spriteRenderer = card.GetComponent<SpriteRenderer>();
+        if (highlight)
+        {
+            spriteRenderer.color = Color.yellow; // Change to highlight color
+        }
+        else
+        {
+            spriteRenderer.color = Color.white; // Change back to original color
+        }
+    }
+
+    void ScaleCard(GameObject card, float scale)
+    {
+        card.transform.localScale = new Vector3(scale, scale, scale);
     }
 }
