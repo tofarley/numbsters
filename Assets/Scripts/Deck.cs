@@ -15,6 +15,14 @@ public class Deck : MonoBehaviour
 
     private int cardsDealt = 0;
 
+    private bool cardDrawn = false;
+
+    public bool CardDrawn
+    {
+        get { return cardDrawn; }
+        set { cardDrawn = value; }
+    }
+
     void Start()
     {
         //DealCards();
@@ -44,6 +52,7 @@ public class Deck : MonoBehaviour
 
             Vector3 targetPosition = startPos + new Vector3(cardSpacing * i, 0, 0);
             InstantiateAndPositionCard(card, targetPosition, cardRow);
+            cardRow.GetComponent<DraggableRow>().ScaleCard(card, 1.5f);
         }
     }
 
@@ -52,9 +61,11 @@ public class Deck : MonoBehaviour
 
         float time = 0;
         Vector3 startPosition = card.transform.position;
+        card.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         while (time < duration)
         {
             card.transform.position = Vector3.Lerp(startPosition, targetPosition, time / duration);
+
             time += Time.deltaTime;
             yield return null;
         }
@@ -79,6 +90,8 @@ public class Deck : MonoBehaviour
         InstantiateAndPositionCard(card, targetPosition, cardRow);
 
         cardRow.GetComponent<DraggableRow>().ArrangeObjects();
+
+        cardDrawn = true;
     }
 
     private void InstantiateAndPositionCard(GameObject card, Vector3 targetPosition, GameObject parent)

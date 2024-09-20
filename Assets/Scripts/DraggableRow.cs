@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
+using NumbstersGameState;
+using System.ComponentModel;
 
 public class DraggableRow : MonoBehaviour
 {
@@ -9,6 +11,22 @@ public class DraggableRow : MonoBehaviour
     private GameObject firstSelectedObject;
     private GameObject secondSelectedObject;
 
+    private int mouthCardIndex = 0;
+    public int MouthCardIndex
+    {
+        get { return mouthCardIndex; }
+        set { mouthCardIndex = value; }
+    }
+
+    private bool hasMovedOrSwappedCards = false;
+    public bool HasMovedOrSwappedCards
+    {
+        get { return hasMovedOrSwappedCards; }
+        set { hasMovedOrSwappedCards = value; }
+    }
+
+    public GameState gameState;
+
     void Start()
     {
         //ArrangeObjects();
@@ -16,47 +34,54 @@ public class DraggableRow : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (gameState == GameState.Move)
         {
-            draggedObject = GetClickedObject();
-            if (draggedObject != null)
+            if (Input.GetMouseButtonDown(0))
             {
-                offset = draggedObject.transform.position - GetMouseWorldPosition();
-                ScaleCard(draggedObject, 1.2f); // Scale up the card
+                draggedObject = GetClickedObject();
+                if (draggedObject != null)
+                {
+                    offset = draggedObject.transform.position - GetMouseWorldPosition();
+                    ScaleCard(draggedObject, 1.2f); // Scale up the card
+                }
+            }
+
+            if (Input.GetMouseButton(0) && draggedObject != null)
+            {
+                Vector3 newPosition = GetMouseWorldPosition() + offset;
+                draggedObject.transform.position = new Vector3(newPosition.x, draggedObject.transform.position.y, draggedObject.transform.position.z);
+
+            }
+
+            if (Input.GetMouseButtonUp(0) && draggedObject != null)
+            {
+                RearrangeObjects();
+                ScaleCard(draggedObject, 1.0f); // Reset the scale
+                this.hasMovedOrSwappedCards = true;
+                draggedObject = null;
+            }
+
+            if (Input.GetMouseButtonDown(1)) // Right-click to select cards for swapping
+            {
+                GameObject clickedObject = GetClickedObject();
+                if (clickedObject != null)
+                {
+                    if (firstSelectedObject == null)
+                    {
+                        firstSelectedObject = clickedObject;
+                        HighlightCard(firstSelectedObject, true);
+                    }
+                    else if (secondSelectedObject == null)
+                    {
+                        secondSelectedObject = clickedObject;
+                        HighlightCard(secondSelectedObject, true);
+                        SwapSelectedCards();
+                        this.hasMovedOrSwappedCards = true;
+                    }
+                }
             }
         }
 
-        if (Input.GetMouseButton(0) && draggedObject != null)
-        {
-            Vector3 newPosition = GetMouseWorldPosition() + offset;
-            draggedObject.transform.position = new Vector3(newPosition.x, draggedObject.transform.position.y, draggedObject.transform.position.z);
-        }
-
-        if (Input.GetMouseButtonUp(0) && draggedObject != null)
-        {
-            RearrangeObjects();
-            ScaleCard(draggedObject, 1.0f); // Reset the scale
-            draggedObject = null;
-        }
-
-        if (Input.GetMouseButtonDown(1)) // Right-click to select cards for swapping
-        {
-            GameObject clickedObject = GetClickedObject();
-            if (clickedObject != null)
-            {
-                if (firstSelectedObject == null)
-                {
-                    firstSelectedObject = clickedObject;
-                    HighlightCard(firstSelectedObject, true);
-                }
-                else if (secondSelectedObject == null)
-                {
-                    secondSelectedObject = clickedObject;
-                    HighlightCard(secondSelectedObject, true);
-                    SwapSelectedCards();
-                }
-            }
-        }
     }
 
     public void ArrangeObjects()
@@ -74,8 +99,15 @@ public class DraggableRow : MonoBehaviour
             spriteRenderer.sortingOrder = 0;
             Vector3 targetPosition = startPos + new Vector3(cardSpacing * i, 0, 0);
             rowObjects[i].transform.position = targetPosition;
+            if (rowObjects[i].GetComponent<Card>().CardValue == 8)
+            {
+                mouthCardIndex = i;
+                Debug.Log("Setting MouthCardIndex to " + i);
+            }
+            ScaleCard(rowObjects[i], 1.0f); // Reset the scale
         }
     }
+
 
     void RearrangeObjects()
     {
@@ -144,7 +176,7 @@ public class DraggableRow : MonoBehaviour
         }
     }
 
-    void ScaleCard(GameObject card, float scale)
+    public void ScaleCard(GameObject card, float scale)
     {
         card.transform.localScale = new Vector3(scale, scale, scale);
     }
