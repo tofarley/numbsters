@@ -25,7 +25,12 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-        switch(gameState)
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+
+        switch (gameState)
         {
             case GameState.CardDraw:
                 if (deck.CardDrawn)
@@ -33,8 +38,8 @@ public class GameController : MonoBehaviour
                     drawButton.interactable = false;
                     gameState = GameState.Move;
                     draggableRow.gameState = GameState.Move;
-
-                    eatButton.interactable = false;
+                    hasEaten = false;
+                    eatButton.interactable = true;
                 }
                 break;
             case GameState.Move:
@@ -44,15 +49,18 @@ public class GameController : MonoBehaviour
                     draggableRow.HasMovedOrSwappedCards = false;
                     draggableRow.gameState = GameState.Eat;
                     gameState = GameState.Eat;
+                    hasEaten = false;
                     eatButton.interactable = true;
                 }
                 break;
             case GameState.Eat:
                 if(hasEaten)
                 {
+                    deck.CardDrawn = false;
                     eatButton.interactable = false;
-                    hasEaten = false;
+                    
                     gameState = GameState.CardDraw;
+                    draggableRow.gameState = GameState.CardDraw;
                     drawButton.interactable = true;
                 }
                 break;
@@ -67,12 +75,14 @@ public class GameController : MonoBehaviour
         
     }
 
+
+
     public void Eat()
     {
         Debug.Log("Eat button clicked");
         // Ensure the mouth card index is valid
-        // if (draggableRow.MouthCardIndex > 0 && draggableRow.MouthCardIndex < draggableRow.rowObjects.Count - 1)
-        // {
+        if (draggableRow.MouthCardIndex > 0 && draggableRow.MouthCardIndex < draggableRow.rowObjects.Count - 1)
+        {
             int firstCardIndex = draggableRow.MouthCardIndex - 1;
             int secondCardIndex = draggableRow.MouthCardIndex + 1;
 
@@ -91,18 +101,37 @@ public class GameController : MonoBehaviour
                     // Remove the second card
                     GameObject secondCard = draggableRow.rowObjects[secondCardIndex];
                     draggableRow.rowObjects.RemoveAt(secondCardIndex);
-                    Destroy(secondCard); // Optionally destroy the GameObject
+                    StartCoroutine(AnimateCardOffScreen(secondCard)); // Animate the card off screen
                 }
                 else
                 {
                     // Remove the first card
                     GameObject firstCard = draggableRow.rowObjects[firstCardIndex];
                     draggableRow.rowObjects.RemoveAt(firstCardIndex);
-                    Destroy(firstCard); // Optionally destroy the GameObject
+                    StartCoroutine(AnimateCardOffScreen(firstCard)); // Animate the card off screen
                 }
                 hasEaten = true;
-            // }
+            }
         }
+    }
+
+    private IEnumerator AnimateCardOffScreen(GameObject card)
+    {
+        float duration = 0.5f; // Duration of the animation
+        float elapsedTime = 0.0f;
+        Vector3 startPosition = card.transform.position;
+        Vector3 endPosition = startPosition + new Vector3(0, 10, 0); // Move upwards by 10 units
+
+        while (elapsedTime < duration)
+        {
+            card.transform.position = Vector3.Lerp(startPosition, endPosition, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        card.transform.position = endPosition; // Ensure the card reaches the end position
+        draggableRow.ArrangeObjects(); // Rearrange the remaining cards
+        Destroy(card); // Optionally destroy the GameObject
     }
 }
 
