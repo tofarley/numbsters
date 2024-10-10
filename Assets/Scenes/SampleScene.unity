@@ -1215,6 +1215,7 @@ MonoBehaviour:
   draggableRow: {fileID: 1408038777}
   drawButton: {fileID: 1046327805}
   eatButton: {fileID: 717720886}
+  eatFromTopButton: {fileID: 1776768917}
 --- !u!4 &1127490998
 Transform:
   m_ObjectHideFlags: 0
@@ -1354,7 +1355,7 @@ GameObject:
   - component: {fileID: 1776768918}
   - component: {fileID: 1776768917}
   m_Layer: 5
-  m_Name: EatSpecialButton
+  m_Name: EatFromTopButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1426,7 +1427,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1127490997}
         m_TargetAssemblyTypeName: GameController, Assembly-CSharp
-        m_MethodName: Eat
+        m_MethodName: EatFromTop
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1531,7 +1532,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: EAT TOP
+  m_text: EAT FROM TOP
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
