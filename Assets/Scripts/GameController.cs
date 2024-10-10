@@ -150,21 +150,13 @@ public class GameController : MonoBehaviour
                 {
                     if (firstCardValue < secondCardValue)
                     {
-                        GameObject firstCard = draggableRow.rowObjects[firstCardIndex];
-                        draggableRow.rowObjects.RemoveAt(firstCardIndex);
-                        StartCoroutine(AnimateCardOffScreen(firstCard)); // Animate the card off screen
-                            hasEaten = true;
-                            gameState = GameState.CardDraw;
+                            RemoveAndAnimateCard(firstCardIndex);
 
-                        }
+                    }
                     else if (firstCardValue > secondCardValue)
                     {
-                        GameObject secondCard = draggableRow.rowObjects[secondCardIndex];
-                        draggableRow.rowObjects.RemoveAt(secondCardIndex);
-                        StartCoroutine(AnimateCardOffScreen(secondCard)); // Animate the card off screen
-                            hasEaten = true;
-                            gameState = GameState.CardDraw;
-                        }
+                            RemoveAndAnimateCard(secondCardIndex);
+                    }
                     else
                     {
                         Debug.Log("You lose");
@@ -176,20 +168,12 @@ public class GameController : MonoBehaviour
                 Debug.Log("Eating 2");
                 if (secondCardValue % 2 == 0 && firstCardValue < 10)
                 {
-                    GameObject firstCard = draggableRow.rowObjects[firstCardIndex];
-                    draggableRow.rowObjects.RemoveAt(firstCardIndex);
-                    StartCoroutine(AnimateCardOffScreen(firstCard)); // Animate the card off screen
-                        hasEaten = true;
-                        gameState = GameState.CardDraw;
-                    }
+                        RemoveAndAnimateCard(firstCardIndex);
+                }
                 else if (firstCardValue % 2 == 0 && secondCardValue < 10)
                 {
-                    GameObject secondCard = draggableRow.rowObjects[secondCardIndex];
-                    draggableRow.rowObjects.RemoveAt(secondCardIndex);
-                    StartCoroutine(AnimateCardOffScreen(secondCard)); // Animate the card off screen
-                        hasEaten = true;
-                        gameState = GameState.CardDraw;
-                    }
+                        RemoveAndAnimateCard(secondCardIndex);
+                }
                 break;
 
             case 3:
@@ -204,20 +188,12 @@ public class GameController : MonoBehaviour
                 {
                     if (firstCardValue > secondCardValue)
                     {
-                        GameObject firstCard = draggableRow.rowObjects[firstCardIndex];
-                        draggableRow.rowObjects.RemoveAt(firstCardIndex);
-                        StartCoroutine(AnimateCardOffScreen(firstCard)); // Animate the card off screen
-                            hasEaten = true;
-                            gameState = GameState.CardDraw;
-                        }
+                            RemoveAndAnimateCard(firstCardIndex);
+                    }
                     else if (firstCardValue < secondCardValue)
                     {
-                        GameObject secondCard = draggableRow.rowObjects[secondCardIndex];
-                        draggableRow.rowObjects.RemoveAt(secondCardIndex);
-                        StartCoroutine(AnimateCardOffScreen(secondCard)); // Animate the card off screen
-                            hasEaten = true;
-                            gameState = GameState.CardDraw;
-                        }
+                            RemoveAndAnimateCard(secondCardIndex);
+                    }
                     else
                     {
                         Debug.Log("You lose");
@@ -233,19 +209,11 @@ public class GameController : MonoBehaviour
                     {
                         if (firstCardValue > secondCardValue)
                         {
-                            GameObject firstCard = draggableRow.rowObjects[firstCardIndex];
-                            draggableRow.rowObjects.RemoveAt(firstCardIndex);
-                            StartCoroutine(AnimateCardOffScreen(firstCard)); // Animate the card off screen
-                            hasEaten = true;
-                            gameState = GameState.CardDraw;
+                            RemoveAndAnimateCard(firstCardIndex);
                         }
                         else if (firstCardValue < secondCardValue)
                         {
-                            GameObject secondCard = draggableRow.rowObjects[secondCardIndex];
-                            draggableRow.rowObjects.RemoveAt(secondCardIndex);
-                            StartCoroutine(AnimateCardOffScreen(secondCard)); // Animate the card off screen
-                            hasEaten = true;
-                            gameState = GameState.CardDraw;
+                            RemoveAndAnimateCard(secondCardIndex);
                         }
                     }
 
@@ -257,19 +225,11 @@ public class GameController : MonoBehaviour
                     {
                         if (firstCardValue < secondCardValue)
                         {
-                            GameObject firstCard = draggableRow.rowObjects[firstCardIndex];
-                            draggableRow.rowObjects.RemoveAt(firstCardIndex);
-                            StartCoroutine(AnimateCardOffScreen(firstCard)); // Animate the card off screen
-                            hasEaten = true;
-                            gameState = GameState.CardDraw;
+                            RemoveAndAnimateCard(firstCardIndex);
                         }
                         else if (firstCardValue > secondCardValue)
                         {
-                            GameObject secondCard = draggableRow.rowObjects[secondCardIndex];
-                            draggableRow.rowObjects.RemoveAt(secondCardIndex);
-                            StartCoroutine(AnimateCardOffScreen(secondCard)); // Animate the card off screen
-                            hasEaten = true;
-                            gameState = GameState.CardDraw;
+                            RemoveAndAnimateCard(secondCardIndex);
                         }
                     }
                     break;
@@ -281,19 +241,11 @@ public class GameController : MonoBehaviour
                     {
                         if (firstCardValue < secondCardValue)
                         {
-                            GameObject firstCard = draggableRow.rowObjects[firstCardIndex];
-                            draggableRow.rowObjects.RemoveAt(firstCardIndex);
-                            StartCoroutine(AnimateCardOffScreen(firstCard)); // Animate the card off screen
-                            hasEaten = true;
-                            gameState = GameState.CardDraw;
+                            RemoveAndAnimateCard(firstCardIndex);
                         }
                         else if (firstCardValue > secondCardValue)
                         {
-                            GameObject secondCard = draggableRow.rowObjects[secondCardIndex];
-                            draggableRow.rowObjects.RemoveAt(secondCardIndex);
-                            StartCoroutine(AnimateCardOffScreen(secondCard)); // Animate the card off screen
-                            hasEaten = true;
-                            gameState = GameState.CardDraw;
+                            RemoveAndAnimateCard(secondCardIndex);
                         }
                         else
                         {
@@ -308,19 +260,11 @@ public class GameController : MonoBehaviour
                     {
                         if (firstCardValue > secondCardValue)
                         {
-                            GameObject firstCard = draggableRow.rowObjects[firstCardIndex];
-                            draggableRow.rowObjects.RemoveAt(firstCardIndex);
-                            StartCoroutine(AnimateCardOffScreen(firstCard)); // Animate the card off screen
-                            hasEaten = true;
-                            gameState = GameState.CardDraw;
+                            RemoveAndAnimateCard(firstCardIndex);
                         }
                         else if (firstCardValue < secondCardValue)
                         {
-                            GameObject secondCard = draggableRow.rowObjects[secondCardIndex];
-                            draggableRow.rowObjects.RemoveAt(secondCardIndex);
-                            StartCoroutine(AnimateCardOffScreen(secondCard)); // Animate the card off screen
-                            hasEaten = true;
-                            gameState = GameState.CardDraw;
+                            RemoveAndAnimateCard(secondCardIndex);
                         }
                     }
 
@@ -334,20 +278,12 @@ public class GameController : MonoBehaviour
                         if (firstCardValue > secondCardValue)
                         {
                             // Remove the second card
-                            GameObject secondCard = draggableRow.rowObjects[secondCardIndex];
-                            draggableRow.rowObjects.RemoveAt(secondCardIndex);
-                            StartCoroutine(AnimateCardOffScreen(secondCard)); // Animate the card off screen
-                            hasEaten = true;
-                            gameState = GameState.CardDraw;
+                            RemoveAndAnimateCard(secondCardIndex);
                         }
                         else
                         {
                             // Remove the first card
-                            GameObject firstCard = draggableRow.rowObjects[firstCardIndex];
-                            draggableRow.rowObjects.RemoveAt(firstCardIndex);
-                            StartCoroutine(AnimateCardOffScreen(firstCard)); // Animate the card off screen
-                            hasEaten = true;
-                            gameState = GameState.CardDraw;
+                            RemoveAndAnimateCard(firstCardIndex);
                         }
                     }
 
@@ -360,22 +296,14 @@ public class GameController : MonoBehaviour
                     {
                         if (firstCardValue > secondCardValue)
                         {
-                            GameObject secondCard = draggableRow.rowObjects[secondCardIndex];
-                            draggableRow.rowObjects.RemoveAt(secondCardIndex);
-                            StartCoroutine(AnimateCardOffScreen(secondCard)); // Animate the card off screen
-                            hasEaten = true;
-                            gameState = GameState.CardDraw;
+                            RemoveAndAnimateCard(secondCardIndex);
                         }
                     }
                     else if (secondCardValue % 2 == 0)
                     {
                         if (firstCardValue < secondCardValue)
                         {
-                            GameObject firstCard = draggableRow.rowObjects[firstCardIndex];
-                            draggableRow.rowObjects.RemoveAt(firstCardIndex);
-                            StartCoroutine(AnimateCardOffScreen(firstCard)); // Animate the card off screen
-                            hasEaten = true;
-                            gameState = GameState.CardDraw;
+                            RemoveAndAnimateCard(firstCardIndex);
                         }
                     }
 
@@ -389,19 +317,11 @@ public class GameController : MonoBehaviour
                     {
                         if (firstCardValue > secondCardValue)
                         {
-                            GameObject firstCard = draggableRow.rowObjects[firstCardIndex];
-                            draggableRow.rowObjects.RemoveAt(firstCardIndex);
-                            StartCoroutine(AnimateCardOffScreen(firstCard)); // Animate the card off screen
-                            hasEaten = true;
-                            gameState = GameState.CardDraw;
+                            RemoveAndAnimateCard(firstCardIndex);
                         }
                         else if (firstCardValue < secondCardValue)
                         {
-                            GameObject secondCard = draggableRow.rowObjects[secondCardIndex];
-                            draggableRow.rowObjects.RemoveAt(secondCardIndex);
-                            StartCoroutine(AnimateCardOffScreen(secondCard)); // Animate the card off screen
-                            hasEaten = true;
-                            gameState = GameState.CardDraw;
+                            RemoveAndAnimateCard(secondCardIndex);
                         }
                         else
                         {
@@ -417,19 +337,11 @@ public class GameController : MonoBehaviour
                     {
                         if (firstCardValue > secondCardValue)
                         {
-                            GameObject firstCard = draggableRow.rowObjects[firstCardIndex];
-                            draggableRow.rowObjects.RemoveAt(firstCardIndex);
-                            StartCoroutine(AnimateCardOffScreen(firstCard)); // Animate the card off screen
-                            hasEaten = true;
-                            gameState = GameState.CardDraw;
+                            RemoveAndAnimateCard(firstCardIndex);
                         }
                         else if (firstCardValue < secondCardValue)
                         {
-                            GameObject secondCard = draggableRow.rowObjects[secondCardIndex];
-                            draggableRow.rowObjects.RemoveAt(secondCardIndex);
-                            StartCoroutine(AnimateCardOffScreen(secondCard)); // Animate the card off screen
-                            hasEaten = true;
-                            gameState = GameState.CardDraw;
+                            RemoveAndAnimateCard(secondCardIndex);
                         }
                     }
                     break;
@@ -438,19 +350,11 @@ public class GameController : MonoBehaviour
                     Debug.Log("Eating 14");
                     if (firstCardValue < 10 && secondCardValue % 2 == 1) 
                     {
-                        GameObject secondCard = draggableRow.rowObjects[secondCardIndex];
-                        draggableRow.rowObjects.RemoveAt(secondCardIndex);
-                        StartCoroutine(AnimateCardOffScreen(secondCard)); // Animate the card off screen
-                        hasEaten = true;
-                        gameState = GameState.CardDraw;
+                        RemoveAndAnimateCard(secondCardIndex);
                     }
                     else if (firstCardValue % 2 == 1 && secondCardValue < 10)
                     {
-                        GameObject firstCard = draggableRow.rowObjects[firstCardIndex];
-                        draggableRow.rowObjects.RemoveAt(firstCardIndex);
-                        StartCoroutine(AnimateCardOffScreen(firstCard)); // Animate the card off screen
-                        hasEaten = true;
-                        gameState = GameState.CardDraw;
+                        RemoveAndAnimateCard(firstCardIndex);
                     }
                     break;
 
@@ -458,19 +362,11 @@ public class GameController : MonoBehaviour
                     Debug.Log("Eating 15");
                     if (firstCardValue % 2 == 0 && secondCardValue >= 10)
                     {
-                        GameObject secondCard = draggableRow.rowObjects[secondCardIndex];
-                        draggableRow.rowObjects.RemoveAt(secondCardIndex);
-                        StartCoroutine(AnimateCardOffScreen(secondCard)); // Animate the card off screen
-                        hasEaten = true;
-                        gameState = GameState.CardDraw;
+                        RemoveAndAnimateCard(secondCardIndex);
                     }
                     else if (firstCardValue >= 10 && secondCardValue %2 == 0)
                     {
-                        GameObject firstCard = draggableRow.rowObjects[firstCardIndex];
-                        draggableRow.rowObjects.RemoveAt(firstCardIndex);
-                        StartCoroutine(AnimateCardOffScreen(firstCard)); // Animate the card off screen
-                        hasEaten = true;
-                        gameState = GameState.CardDraw;
+                        RemoveAndAnimateCard(firstCardIndex);
                     }
 
                     break;
@@ -488,19 +384,11 @@ public class GameController : MonoBehaviour
                     {
                         if (firstCardValue > secondCardValue)
                         {
-                            GameObject firstCard = draggableRow.rowObjects[firstCardIndex];
-                            draggableRow.rowObjects.RemoveAt(firstCardIndex);
-                            StartCoroutine(AnimateCardOffScreen(firstCard)); // Animate the card off screen
-                            hasEaten = true;
-                            gameState = GameState.CardDraw;
+                            RemoveAndAnimateCard(firstCardIndex);
                         }
                         else if (firstCardValue < secondCardValue)
                         {
-                            GameObject secondCard = draggableRow.rowObjects[secondCardIndex];
-                            draggableRow.rowObjects.RemoveAt(secondCardIndex);
-                            StartCoroutine(AnimateCardOffScreen(secondCard)); // Animate the card off screen
-                            hasEaten = true;
-                            gameState = GameState.CardDraw;
+                            RemoveAndAnimateCard(secondCardIndex);
                         }
                     }
 
@@ -510,19 +398,11 @@ public class GameController : MonoBehaviour
                     Debug.Log("Eating 18");
                     if (firstCardValue % 2 == 1 && firstCardValue > secondCardValue)
                     {
-                        GameObject secondCard = draggableRow.rowObjects[secondCardIndex];
-                        draggableRow.rowObjects.RemoveAt(secondCardIndex);
-                        StartCoroutine(AnimateCardOffScreen(secondCard)); // Animate the card off screen
-                        hasEaten = true;
-                        gameState = GameState.CardDraw;
+                        RemoveAndAnimateCard(secondCardIndex);
                     }
                     else if (secondCardValue % 2 == 1 && secondCardValue > firstCardValue)
                     {
-                        GameObject firstCard = draggableRow.rowObjects[firstCardIndex];
-                        draggableRow.rowObjects.RemoveAt(firstCardIndex);
-                        StartCoroutine(AnimateCardOffScreen(firstCard)); // Animate the card off screen
-                        hasEaten = true;
-                        gameState = GameState.CardDraw;
+                        RemoveAndAnimateCard(firstCardIndex);
                     }
                     break;
             }
@@ -530,6 +410,14 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private void RemoveAndAnimateCard(int cardIndex)
+    {
+        GameObject card = draggableRow.rowObjects[cardIndex];
+        draggableRow.rowObjects.RemoveAt(cardIndex);
+        StartCoroutine(AnimateCardOffScreen(card)); // Animate the card off screen
+        hasEaten = true;
+        gameState = GameState.CardDraw;
+    }
 
     private IEnumerator AnimateCardOffScreen(GameObject card)
     {
