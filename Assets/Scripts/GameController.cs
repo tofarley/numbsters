@@ -17,12 +17,26 @@ public class GameController : MonoBehaviour
 
     private GameState gameState = GameState.CardDraw;
 
-    void Start()
+
+    void CardDrawPhase()
     {
-        deck.DealCards();
+        gameState = GameState.CardDraw;
         drawButton.interactable = true;
         eatButton.interactable = false;
         eatFromTopButton.interactable = false;
+    }
+
+    void MovePhase()
+    {
+        gameState = GameState.Move;
+    }
+
+    
+
+    void Start()
+    {
+        deck.DealCards();
+
     }
 
     private bool hasEaten = false;
@@ -415,7 +429,7 @@ public class GameController : MonoBehaviour
         GameObject card = draggableRow.rowObjects[cardIndex];
         draggableRow.rowObjects.RemoveAt(cardIndex);
         StartCoroutine(AnimateCardOffScreen(card)); // Animate the card off screen
-        hasEaten = true;
+        hasEaten = false;
         gameState = GameState.CardDraw;
     }
 
