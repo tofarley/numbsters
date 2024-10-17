@@ -18,25 +18,51 @@ public class GameController : MonoBehaviour
     private GameState gameState = GameState.CardDraw;
 
 
-    void CardDrawPhase()
+    void EnterCardDrawPhase()
     {
         gameState = GameState.CardDraw;
         drawButton.interactable = true;
         eatButton.interactable = false;
         eatFromTopButton.interactable = false;
+        draggableRow.gameState = GameState.CardDraw;
+        hasEaten = false;
+        deck.CardDrawn = false;
+        draggableRow.HasMovedOrSwappedCards = false;
     }
 
-    void MovePhase()
+    void EnterMovePhase()
     {
+        Debug.Log("EnterMovePhase");
         gameState = GameState.Move;
+        drawButton.interactable = false;
+        eatButton.interactable = true;
+        eatFromTopButton.interactable = true;
+        draggableRow.gameState = GameState.Move;
     }
 
-    
+    void EnterEatPhase()
+    {
+        gameState = GameState.Eat;
+        draggableRow.gameState = GameState.Eat;
+    }
+
+    void EnterEndPhase()
+    {
+        CheckLose();
+        EnterCardDrawPhase();
+    }
+
+    void CheckLose()
+    {
+        // Check if the player has lost
+    }
+
+
 
     void Start()
     {
         deck.DealCards();
-
+        EnterCardDrawPhase();
     }
 
     private bool hasEaten = false;
@@ -53,49 +79,22 @@ public class GameController : MonoBehaviour
             case GameState.CardDraw:
                 if (deck.CardDrawn)
                 {
-                    drawButton.interactable = false;
-                    gameState = GameState.Move;
-                    draggableRow.gameState = GameState.Move;
-                    hasEaten = false;
-                    eatButton.interactable = true;
-                    eatFromTopButton.interactable = true;
+                    EnterMovePhase();
                 }
                 break;
             case GameState.Move:
                 if(draggableRow.HasMovedOrSwappedCards)
                 {
-                    //drawButton.interactable = true;
-                    draggableRow.HasMovedOrSwappedCards = false;
-                    draggableRow.gameState = GameState.Eat;
-                    gameState = GameState.Eat;
-                    // If I was in a position where I didn't have to move, I didn't properly reset the game state
-                    //hasEaten = false;
-                    // If I start a right-click and cancel it, it skips my chance to swap.
-                    eatButton.interactable = true;
-                    eatFromTopButton.interactable = true;
+                    EnterEatPhase();
                 }
                 break;
             case GameState.Eat:
-                if(hasEaten)
+                if (hasEaten)
                 {
-                    deck.CardDrawn = false;
-                    eatButton.interactable = false;
-                    eatFromTopButton.interactable = false;
-                    
-                    gameState = GameState.CardDraw;
-                    draggableRow.gameState = GameState.CardDraw;
-                    drawButton.interactable = true;
+                    EnterEndPhase();
                 }
                 break;
         }
-        // if (deck.CardDrawn && draggableRow.HasMovedOrSwappedCards)
-        // {
-        //     drawButton.interactable = false;
-        //     draggableRow.HasMovedOrSwappedCards = false;
-        //     //deck.CardDrawn = false;
-        //     // Let's do other steps here.
-        // 
-        
     }
 
 
@@ -134,7 +133,7 @@ public class GameController : MonoBehaviour
                     StartCoroutine(AnimateCardOffScreen(firstCard)); // Animate the card off screen
                 }
                 hasEaten = true;
-                gameState = GameState.CardDraw;
+                //gameState = GameState.CardDraw;
             }
         }
     }
@@ -429,8 +428,7 @@ public class GameController : MonoBehaviour
         GameObject card = draggableRow.rowObjects[cardIndex];
         draggableRow.rowObjects.RemoveAt(cardIndex);
         StartCoroutine(AnimateCardOffScreen(card)); // Animate the card off screen
-        hasEaten = false;
-        gameState = GameState.CardDraw;
+        hasEaten = true;
     }
 
     private IEnumerator AnimateCardOffScreen(GameObject card)
