@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using NumbstersGameState;
 using System.Runtime.CompilerServices;
+using TMPro;
 
 public class GameController : MonoBehaviour
 {
@@ -15,8 +16,25 @@ public class GameController : MonoBehaviour
 
     [SerializeField] private Button eatFromTopButton;
 
+    [SerializeField] private TextMeshProUGUI loseScreen;
+
     private GameState gameState = GameState.CardDraw;
 
+    public void disableLoseScreen()
+    {
+        if (loseScreen != null)
+        {
+            loseScreen.gameObject.SetActive(false); // Disable the TextMeshPro UI element
+        }
+    }
+
+    public void enableLoseScreen()
+    {
+        if (loseScreen != null)
+        {
+            loseScreen.gameObject.SetActive(true); // Disable the TextMeshPro UI element
+        }
+    }
 
     void EnterCardDrawPhase()
     {
@@ -54,6 +72,14 @@ public class GameController : MonoBehaviour
 
     void CheckLose()
     {
+        var lastItem = draggableRow.rowObjects[draggableRow.rowObjects.Count - 1];
+        //Debug.Log(lastItem.GetComponent<Card>().CardValue);
+        int cardValue = lastItem.GetComponent<Card>().CardValue;
+        if (cardValue == 7)
+        {
+            enableLoseScreen(); // Enable the lose screen
+            //gameState = GameState.Lose;
+        }
         // Check if the player has lost
     }
 
@@ -61,6 +87,7 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        disableLoseScreen();
         deck.DealCards();
         EnterCardDrawPhase();
     }
