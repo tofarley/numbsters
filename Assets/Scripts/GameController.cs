@@ -75,7 +75,7 @@ public class GameController : MonoBehaviour
         var lastItem = draggableRow.rowObjects[draggableRow.rowObjects.Count - 1];
         //Debug.Log(lastItem.GetComponent<Card>().CardValue);
         int cardValue = lastItem.GetComponent<Card>().CardValue;
-        if (cardValue == 7)
+        if (cardValue == 8)
         {
             enableLoseScreen(); // Enable the lose screen
             //gameState = GameState.Lose;

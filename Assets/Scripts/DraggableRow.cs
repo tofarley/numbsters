@@ -55,6 +55,8 @@ public class DraggableRow : MonoBehaviour
             if (Input.GetMouseButtonUp(0) && draggedObject != null)
             {
                 RearrangeObjects();
+                // TODO: Come back here
+                hasMovedOrSwappedCards = true;
                 ScaleCard(draggedObject, 1.0f); // Reset the scale
                 draggedObject = null;
             }
@@ -170,26 +172,6 @@ public class DraggableRow : MonoBehaviour
         mousePosition.z = Camera.main.WorldToScreenPoint(transform.position).z;
         return Camera.main.ScreenToWorldPoint(mousePosition);
     }
-
-    // void SwapSelectedCards()
-    // {
-    //     if (firstSelectedObject != null && secondSelectedObject != null)
-    //     {
-    //         int firstIndex = rowObjects.IndexOf(firstSelectedObject);
-    //         int secondIndex = rowObjects.IndexOf(secondSelectedObject);
-
-    //         if (firstIndex != -1 && secondIndex != -1)
-    //         {
-    //             SwapCards(firstIndex, secondIndex);
-    //         }
-
-    //         HighlightCard(firstSelectedObject, false);
-    //         HighlightCard(secondSelectedObject, false);
-
-    //         firstSelectedObject = null;
-    //         secondSelectedObject = null;
-    //     }
-    // }
 
     void SwapCards(int index1, int index2)
     {
