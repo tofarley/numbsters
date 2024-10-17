@@ -8,6 +8,7 @@ namespace NumbstersGameState
     {
         CardDraw,
         Move,
-        Eat
+        Eat,
+        End
     }
 }
