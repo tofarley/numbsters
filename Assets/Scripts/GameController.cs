@@ -87,6 +87,10 @@ public class GameController : MonoBehaviour
                 {
                     EnterEatPhase();
                 }
+                if(hasEaten)
+                {
+                    EnterEndPhase();
+                }
                 break;
             case GameState.Eat:
                 if (hasEaten)
@@ -121,16 +125,18 @@ public class GameController : MonoBehaviour
                 if (firstCardValue < secondCardValue)
                 {
                     // Remove the second card
-                    GameObject secondCard = draggableRow.rowObjects[secondCardIndex];
-                    draggableRow.rowObjects.RemoveAt(secondCardIndex);
-                    StartCoroutine(AnimateCardOffScreen(secondCard)); // Animate the card off screen
+                    //GameObject secondCard = draggableRow.rowObjects[secondCardIndex];
+                    // draggableRow.rowObjects.RemoveAt(secondCardIndex);
+                    // StartCoroutine(AnimateCardOffScreen(secondCard)); // Animate the card off screen
+                    RemoveAndAnimateCard(secondCardIndex);
                 }
                 else
                 {
                     // Remove the first card
-                    GameObject firstCard = draggableRow.rowObjects[firstCardIndex];
-                    draggableRow.rowObjects.RemoveAt(firstCardIndex);
-                    StartCoroutine(AnimateCardOffScreen(firstCard)); // Animate the card off screen
+                    //GameObject firstCard = draggableRow.rowObjects[firstCardIndex];
+                    // draggableRow.rowObjects.RemoveAt(firstCardIndex);
+                    // StartCoroutine(AnimateCardOffScreen(firstCard)); // Animate the card off screen
+                    RemoveAndAnimateCard(firstCardIndex);
                 }
                 hasEaten = true;
                 //gameState = GameState.CardDraw;

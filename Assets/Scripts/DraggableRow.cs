@@ -50,14 +50,12 @@ public class DraggableRow : MonoBehaviour
             {
                 Vector3 newPosition = GetMouseWorldPosition() + offset;
                 draggedObject.transform.position = new Vector3(newPosition.x, draggedObject.transform.position.y, draggedObject.transform.position.z);
-
             }
 
             if (Input.GetMouseButtonUp(0) && draggedObject != null)
             {
                 RearrangeObjects();
                 ScaleCard(draggedObject, 1.0f); // Reset the scale
-                this.hasMovedOrSwappedCards = true;
                 draggedObject = null;
             }
 
@@ -76,13 +74,51 @@ public class DraggableRow : MonoBehaviour
                         secondSelectedObject = clickedObject;
                         HighlightCard(secondSelectedObject, true);
                         SwapSelectedCards();
-                        this.hasMovedOrSwappedCards = true;
                     }
                 }
             }
         }
-
     }
+
+    private void SwapSelectedCards()
+    {
+        if (firstSelectedObject != null && secondSelectedObject != null)
+        {
+            int firstIndex = rowObjects.IndexOf(firstSelectedObject);
+            int secondIndex = rowObjects.IndexOf(secondSelectedObject);
+
+            if (firstIndex != -1 && secondIndex != -1)
+            {
+                Vector3 firstInitialPosition = firstSelectedObject.transform.position;
+                Vector3 secondInitialPosition = secondSelectedObject.transform.position;
+
+                // Swap the cards
+                GameObject temp = rowObjects[firstIndex];
+                rowObjects[firstIndex] = rowObjects[secondIndex];
+                rowObjects[secondIndex] = temp;
+
+                ArrangeObjects();
+
+                // Check if the positions have actually changed
+                if (firstSelectedObject.transform.position != firstInitialPosition || secondSelectedObject.transform.position != secondInitialPosition)
+                {
+                    this.hasMovedOrSwappedCards = true;
+                }
+                else
+                {
+                    this.hasMovedOrSwappedCards = false;
+                }
+            }
+
+            HighlightCard(firstSelectedObject, false);
+            HighlightCard(secondSelectedObject, false);
+
+            firstSelectedObject = null;
+            secondSelectedObject = null;
+        }
+    }
+
+
 
     public void ArrangeObjects()
     {
@@ -135,25 +171,25 @@ public class DraggableRow : MonoBehaviour
         return Camera.main.ScreenToWorldPoint(mousePosition);
     }
 
-    void SwapSelectedCards()
-    {
-        if (firstSelectedObject != null && secondSelectedObject != null)
-        {
-            int firstIndex = rowObjects.IndexOf(firstSelectedObject);
-            int secondIndex = rowObjects.IndexOf(secondSelectedObject);
+    // void SwapSelectedCards()
+    // {
+    //     if (firstSelectedObject != null && secondSelectedObject != null)
+    //     {
+    //         int firstIndex = rowObjects.IndexOf(firstSelectedObject);
+    //         int secondIndex = rowObjects.IndexOf(secondSelectedObject);
 
-            if (firstIndex != -1 && secondIndex != -1)
-            {
-                SwapCards(firstIndex, secondIndex);
-            }
+    //         if (firstIndex != -1 && secondIndex != -1)
+    //         {
+    //             SwapCards(firstIndex, secondIndex);
+    //         }
 
-            HighlightCard(firstSelectedObject, false);
-            HighlightCard(secondSelectedObject, false);
+    //         HighlightCard(firstSelectedObject, false);
+    //         HighlightCard(secondSelectedObject, false);
 
-            firstSelectedObject = null;
-            secondSelectedObject = null;
-        }
-    }
+    //         firstSelectedObject = null;
+    //         secondSelectedObject = null;
+    //     }
+    // }
 
     void SwapCards(int index1, int index2)
     {
