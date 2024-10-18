@@ -159,6 +159,31 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private bool IsLargestValueInRow(int cardValue)
+    {
+        foreach (GameObject cardObject in draggableRow.rowObjects)
+        {
+            int value = cardObject.GetComponent<Card>().CardValue;
+            if (value > cardValue)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private bool IsSmallestValueInRow(int cardValue)
+    {
+        foreach (GameObject cardObject in draggableRow.rowObjects)
+        {
+            int value = cardObject.GetComponent<Card>().CardValue;
+            if (value < cardValue)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
     public void EatFromTop()
     {
         if (draggableRow.MouthCardIndex > 0 && draggableRow.MouthCardIndex < draggableRow.rowObjects.Count - 1)
@@ -206,12 +231,28 @@ public class GameController : MonoBehaviour
                     {
                         RemoveAndAnimateCard(secondCardIndex);
                     }
+                    else
+                    {
+                        hasEaten = false;
+                        EnterEndPhase();
+                    }
                     break;
 
                 case 3:
                     Debug.Log("Eating 3");
-
-
+                    if (IsLargestValueInRow(firstCardValue) && secondCardValue % 2 == 1)
+                    {
+                        RemoveAndAnimateCard(secondCardIndex);
+                    }
+                    else if (IsLargestValueInRow(secondCardValue) && firstCardValue % 2 == 1)
+                    {
+                        RemoveAndAnimateCard(firstCardIndex);
+                    }
+                    else
+                    {
+                        hasEaten = false;
+                        EnterEndPhase();
+                    }
                     break;
 
                 case 4:
@@ -232,7 +273,6 @@ public class GameController : MonoBehaviour
                             EnterEndPhase();
                         }
                     }
-
                     break;
 
                 case 5:
@@ -248,8 +288,12 @@ public class GameController : MonoBehaviour
                         {
                             RemoveAndAnimateCard(secondCardIndex);
                         }
+                        else
+                        {
+                            hasEaten = false;
+                            EnterEndPhase();
+                        }
                     }
-
                     break;
 
                 case 6:
@@ -264,12 +308,16 @@ public class GameController : MonoBehaviour
                         {
                             RemoveAndAnimateCard(secondCardIndex);
                         }
+                        else
+                        {
+                            hasEaten = false;
+                            EnterEndPhase();
+                        }
                     }
                     break;
 
                 case 7:
                     Debug.Log("Eating 7");
-
                     if (firstCardValue % 2 == 1 && secondCardValue % 2 == 1)
                     {
                         if (firstCardValue < secondCardValue)
@@ -303,31 +351,36 @@ public class GameController : MonoBehaviour
                         {
                             RemoveAndAnimateCard(secondCardIndex);
                         }
+                        else
+                        {
+                            hasEaten = false;
+                            EnterEndPhase();
+                        }
                     }
                     break;
 
                 case 10:
                     Debug.Log("Eating 10");
-
                     if (Mathf.Abs(firstCardValue - secondCardValue) == 1)
                     {
                         if (firstCardValue > secondCardValue)
                         {
-                            // Remove the second card
                             RemoveAndAnimateCard(secondCardIndex);
                         }
                         else
                         {
-                            // Remove the first card
                             RemoveAndAnimateCard(firstCardIndex);
                         }
                     }
-
+                    else
+                    {
+                        hasEaten = false;
+                        EnterEndPhase();
+                    }
                     break;
 
                 case 11:
                     Debug.Log("Eating 11");
-
                     if (firstCardValue % 2 == 0)
                     {
                         if (firstCardValue > secondCardValue)
@@ -342,13 +395,15 @@ public class GameController : MonoBehaviour
                             RemoveAndAnimateCard(firstCardIndex);
                         }
                     }
-
-
+                    else
+                    {
+                        hasEaten = false;
+                        EnterEndPhase();
+                    }
                     break;
 
                 case 12:
                     Debug.Log("Eating 12");
-
                     if (firstCardValue % 2 == 0 && secondCardValue % 2 == 0)
                     {
                         if (firstCardValue > secondCardValue)
@@ -380,6 +435,11 @@ public class GameController : MonoBehaviour
                         {
                             RemoveAndAnimateCard(secondCardIndex);
                         }
+                        else
+                        {
+                            hasEaten = false;
+                            EnterEndPhase();
+                        }
                     }
                     break;
 
@@ -393,6 +453,11 @@ public class GameController : MonoBehaviour
                     {
                         RemoveAndAnimateCard(firstCardIndex);
                     }
+                    else
+                    {
+                        hasEaten = false;
+                        EnterEndPhase();
+                    }
                     break;
 
                 case 15:
@@ -405,11 +470,28 @@ public class GameController : MonoBehaviour
                     {
                         RemoveAndAnimateCard(firstCardIndex);
                     }
+                    else
+                    {
+                        hasEaten = false;
+                        EnterEndPhase();
+                    }
                     break;
-
 
                 case 16:
                     Debug.Log("Eating 16");
+                    if (IsSmallestValueInRow(firstCardValue) && secondCardValue % 2 == 0)
+                    {
+                        RemoveAndAnimateCard(secondCardIndex);
+                    }
+                    else if (IsSmallestValueInRow(secondCardValue) && firstCardValue % 2 == 0)
+                    {
+                        RemoveAndAnimateCard(firstCardIndex);
+                    }
+                    else
+                    {
+                        hasEaten = false;
+                        EnterEndPhase();
+                    }
                     break;
 
                 case 17:
@@ -425,6 +507,11 @@ public class GameController : MonoBehaviour
                             RemoveAndAnimateCard(secondCardIndex);
                         }
                     }
+                    else
+                    {
+                        hasEaten = false;
+                        EnterEndPhase();
+                    }
                     break;
 
                 case 18:
@@ -437,6 +524,11 @@ public class GameController : MonoBehaviour
                     {
                         RemoveAndAnimateCard(firstCardIndex);
                     }
+                    else
+                    {
+                        hasEaten = false;
+                        EnterEndPhase();
+                    }
                     break;
 
                 default:
@@ -445,9 +537,52 @@ public class GameController : MonoBehaviour
                     EnterEndPhase();
                     break;
             }
+
+            // did we eat a card? if so we need to move the card to the beginning.
+            if (hasEaten)
+            {
+                MoveLastCardToFirst();
+            }
+
         }
     }
 
+    private void MoveLastCardToFirst()
+    {
+        if (draggableRow.rowObjects.Count > 0)
+        {
+            GameObject lastCard = draggableRow.rowObjects[draggableRow.rowObjects.Count - 1];
+            draggableRow.rowObjects.RemoveAt(draggableRow.rowObjects.Count - 1);
+            draggableRow.rowObjects.Insert(0, lastCard);
+            StartCoroutine(AnimateCardToFirstPosition(lastCard));
+            draggableRow.ArrangeObjects();
+        }
+    }
+
+    private IEnumerator AnimateCardToFirstPosition(GameObject card)
+    {
+        float duration = 1.0f; // Duration of the animation
+        float elapsedTime = 0.0f;
+        Vector3 startPosition = card.transform.position;
+
+        // Calculate the target position for the first position in the row
+        float cardSpacing = 2f; // Adjust this value to change the spacing between objects
+        float totalWidth = cardSpacing * (draggableRow.rowObjects.Count - 1); // 5 spaces between 6 cards
+
+        SpriteRenderer spriteRenderer = card.GetComponent<SpriteRenderer>();
+        spriteRenderer.sortingOrder = 10;
+        Vector3 targetPosition = new Vector3(-totalWidth / 2, 0, 0);
+
+        while (elapsedTime < duration)
+        {
+            card.transform.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        card.transform.position = targetPosition; // Ensure the card reaches the target position
+        draggableRow.ArrangeObjects(); // Rearrange the row after the animation
+    }
     private void RemoveAndAnimateCard(int cardIndex)
     {
         GameObject card = draggableRow.rowObjects[cardIndex];
