@@ -368,11 +368,11 @@ public class GameController : MonoBehaviour
                         {
                             RemoveAndAnimateCard(secondCardIndex);
                         }
-                        else
-                        {
-                            hasEaten = false;
-                            EnterEndPhase();
-                        }
+                    }
+                    else
+                    {
+                        hasEaten = false;
+                        EnterEndPhase();
                     }
                     break;
 
@@ -475,11 +475,11 @@ public class GameController : MonoBehaviour
                         {
                             RemoveAndAnimateCard(secondCardIndex);
                         }
-                        else
-                        {
-                            hasEaten = false;
-                            EnterEndPhase();
-                        }
+                    }
+                    else
+                    {
+                        hasEaten = false;
+                        EnterEndPhase();
                     }
                     break;
 
