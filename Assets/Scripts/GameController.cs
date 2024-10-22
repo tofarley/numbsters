@@ -71,7 +71,6 @@ public class GameController : MonoBehaviour
 
     void EnterMovePhase()
     {
-        Debug.Log("EnterMovePhase");
         gameState = GameState.Move;
         drawButton.interactable = false;
         eatButton.interactable = true;
@@ -95,7 +94,6 @@ public class GameController : MonoBehaviour
     {
         var lastItem = draggableRow.rowObjects[draggableRow.rowObjects.Count - 1];
         var rowCount = draggableRow.rowObjects.Count;
-        Debug.Log("Row Count: " + rowCount);
         int cardValue = lastItem.GetComponent<Card>().CardValue;
         if (cardValue == 8 || hasEaten == false)
         {
@@ -241,7 +239,6 @@ public class GameController : MonoBehaviour
             switch (cardValue)
             {
                 case 1:
-                    Debug.Log("Eating 1");
                     if (firstCardValue % 2 == 0 && secondCardValue % 2 == 0)
                     {
                         if (firstCardValue < secondCardValue)
@@ -262,7 +259,6 @@ public class GameController : MonoBehaviour
                     break;
                 case 2:
                     // need to handle the case where both cards are even and less than 10
-                    Debug.Log("Eating 2");
                     if (secondCardValue % 2 == 0 && firstCardValue < 10)
                     {
                         RemoveAndAnimateCard(firstCardIndex);
@@ -279,7 +275,6 @@ public class GameController : MonoBehaviour
                     break;
 
                 case 3:
-                    Debug.Log("Eating 3");
                     if (IsLargestValueInRow(firstCardValue) && secondCardValue % 2 == 1)
                     {
                         RemoveAndAnimateCard(secondCardIndex);
@@ -296,7 +291,6 @@ public class GameController : MonoBehaviour
                     break;
 
                 case 4:
-                    Debug.Log("Eating 4");
                     if (firstCardValue % 2 == 1 && secondCardValue % 2 == 1)
                     {
                         if (firstCardValue > secondCardValue)
@@ -317,7 +311,6 @@ public class GameController : MonoBehaviour
 
                 case 5:
                     // need to handle the case where both cards are even and less than 10
-                    Debug.Log("Eating 5");
                     if (secondCardValue % 2 == 1 || firstCardValue % 2 == 1)
                     {
                         if (firstCardValue > secondCardValue)
@@ -337,7 +330,6 @@ public class GameController : MonoBehaviour
                     break;
 
                 case 6:
-                    Debug.Log("Eating 6");
                     if ((firstCardValue < 10 && secondCardValue >= 10) || (firstCardValue >= 10 && secondCardValue < 10))
                     {
                         if (firstCardValue < secondCardValue)
@@ -357,7 +349,6 @@ public class GameController : MonoBehaviour
                     break;
 
                 case 7:
-                    Debug.Log("Eating 7");
                     if (firstCardValue % 2 == 1 && secondCardValue % 2 == 1)
                     {
                         if (firstCardValue < secondCardValue)
@@ -380,7 +371,6 @@ public class GameController : MonoBehaviour
                     break;
 
                 case 9:
-                    Debug.Log("Eating 9");
                     if ((firstCardValue < 10 && secondCardValue >= 10) || (firstCardValue >= 10 && secondCardValue < 10))
                     {
                         if (firstCardValue > secondCardValue)
@@ -400,7 +390,6 @@ public class GameController : MonoBehaviour
                     break;
 
                 case 10:
-                    Debug.Log("Eating 10");
                     if (Mathf.Abs(firstCardValue - secondCardValue) == 1)
                     {
                         if (firstCardValue > secondCardValue)
@@ -420,7 +409,6 @@ public class GameController : MonoBehaviour
                     break;
 
                 case 11:
-                    Debug.Log("Eating 11");
                     if (firstCardValue % 2 == 0)
                     {
                         if (firstCardValue > secondCardValue)
@@ -443,7 +431,6 @@ public class GameController : MonoBehaviour
                     break;
 
                 case 12:
-                    Debug.Log("Eating 12");
                     if (firstCardValue % 2 == 0 && secondCardValue % 2 == 0)
                     {
                         if (firstCardValue > secondCardValue)
@@ -463,7 +450,6 @@ public class GameController : MonoBehaviour
                     break;
 
                 case 13:
-                    Debug.Log("Eating 13");
 
                     if ((firstCardValue % 2 == 1 && secondCardValue >= 10) || (firstCardValue >= 10 && secondCardValue % 2 == 1))
                     {
@@ -484,7 +470,6 @@ public class GameController : MonoBehaviour
                     break;
 
                 case 14:
-                    Debug.Log("Eating 14");
                     if (firstCardValue < 10 && secondCardValue % 2 == 1)
                     {
                         RemoveAndAnimateCard(secondCardIndex);
@@ -501,7 +486,6 @@ public class GameController : MonoBehaviour
                     break;
 
                 case 15:
-                    Debug.Log("Eating 15");
                     if (firstCardValue % 2 == 0 && secondCardValue >= 10)
                     {
                         RemoveAndAnimateCard(secondCardIndex);
@@ -518,7 +502,6 @@ public class GameController : MonoBehaviour
                     break;
 
                 case 16:
-                    Debug.Log("Eating 16");
                     if (IsSmallestValueInRow(firstCardValue) && secondCardValue % 2 == 0)
                     {
                         RemoveAndAnimateCard(secondCardIndex);
@@ -535,7 +518,6 @@ public class GameController : MonoBehaviour
                     break;
 
                 case 17:
-                    Debug.Log("Eating 17");
                     if (firstCardValue % 2 == 0 || secondCardValue % 2 == 0)
                     {
                         if (firstCardValue > secondCardValue)
@@ -555,7 +537,6 @@ public class GameController : MonoBehaviour
                     break;
 
                 case 18:
-                    Debug.Log("Eating 18");
                     if (firstCardValue % 2 == 1 && firstCardValue > secondCardValue)
                     {
                         RemoveAndAnimateCard(secondCardIndex);
