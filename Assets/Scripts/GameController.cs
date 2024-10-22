@@ -18,6 +18,8 @@ public class GameController : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI loseScreen;
 
+    [SerializeField] private TextMeshProUGUI cardsRemainingText;
+
     private GameState gameState = GameState.CardDraw;
 
     public void disableLoseScreen()
@@ -32,6 +34,17 @@ public class GameController : MonoBehaviour
     {
         if (loseScreen != null)
         {
+            gameState = GameState.End;
+            loseScreen.gameObject.SetActive(true); // Disable the TextMeshPro UI element
+        }
+    }
+
+    public void enableWinScreen()
+    {
+        if (loseScreen != null)
+        {
+            gameState = GameState.End;
+            loseScreen.text = "You Win!";
             loseScreen.gameObject.SetActive(true); // Disable the TextMeshPro UI element
         }
     }
@@ -39,13 +52,21 @@ public class GameController : MonoBehaviour
     void EnterCardDrawPhase()
     {
         gameState = GameState.CardDraw;
-        drawButton.interactable = true;
+        if (deck.GetRemainingCardCount() > 0)
+        {
+            drawButton.interactable = true;
+        }
+        else
+        {
+            drawButton.interactable = false;
+        }
         eatButton.interactable = false;
         eatFromTopButton.interactable = false;
         draggableRow.gameState = GameState.CardDraw;
         hasEaten = false;
         deck.CardDrawn = false;
         draggableRow.HasMovedOrSwappedCards = false;
+        cardsRemainingText.text = "Draw [" + deck.GetRemainingCardCount() + "]";
     }
 
     void EnterMovePhase()
@@ -73,11 +94,19 @@ public class GameController : MonoBehaviour
     void CheckLose()
     {
         var lastItem = draggableRow.rowObjects[draggableRow.rowObjects.Count - 1];
+        var rowCount = draggableRow.rowObjects.Count;
+        Debug.Log("Row Count: " + rowCount);
         int cardValue = lastItem.GetComponent<Card>().CardValue;
         if (cardValue == 8 || hasEaten == false)
         {
-            enableLoseScreen(); // Enable the lose screen
             gameState = GameState.End;
+            enableLoseScreen(); // Enable the lose screen
+
+        }
+        if (rowCount == 2)
+        {
+            gameState = GameState.End;
+            enableWinScreen(); // Enable the lose screen
         }
     }
 
@@ -93,6 +122,11 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
+        if (gameState == GameState.End)
+        {
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
@@ -101,9 +135,15 @@ public class GameController : MonoBehaviour
         switch (gameState)
         {
             case GameState.CardDraw:
-                if (deck.CardDrawn)
+                if (deck.GetRemainingCardCount() == 0)
                 {
                     EnterMovePhase();
+                }
+                if (deck.CardDrawn)
+                {
+                    cardsRemainingText.text = "Draw [" + deck.GetRemainingCardCount() + "]";
+                    EnterMovePhase();
+                    
                 }
                 break;
             case GameState.Move:

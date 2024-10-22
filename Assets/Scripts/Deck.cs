@@ -28,6 +28,14 @@ public class Deck : MonoBehaviour
         //DealCards();
     }
 
+    public int GetRemainingCardCount()
+    {
+        // fake it for now
+        return (18 - cardsDealt);
+        // This is for fake testing to get through the deck quicker
+        //return (10 - cardsDealt);
+    }
+
     public void DealCards()
     {
         // Shuffle the cards
@@ -54,6 +62,10 @@ public class Deck : MonoBehaviour
             InstantiateAndPositionCard(card, targetPosition, cardRow);
             cardRow.GetComponent<DraggableRow>().ScaleCard(card, 1.5f);
         }
+
+
+        // Let's deal some more cards for testing purposes
+
     }
 
     IEnumerator MoveOverTime(GameObject card, Vector3 targetPosition, float duration)

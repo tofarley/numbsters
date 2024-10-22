@@ -905,7 +905,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: DRAW
+  m_text: DRAW (X)
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1218,6 +1218,7 @@ MonoBehaviour:
   eatButton: {fileID: 717720886}
   eatFromTopButton: {fileID: 1776768917}
   loseScreen: {fileID: 1233800946}
+  cardsRemainingText: {fileID: 888198196}
 --- !u!4 &1127490998
 Transform:
   m_ObjectHideFlags: 0
