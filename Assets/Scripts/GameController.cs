@@ -20,8 +20,10 @@ public class GameController : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI cardsRemainingText;
 
+    [SerializeField] private Canvas menuCanvas;
     private GameState gameState = GameState.CardDraw;
 
+    private bool hasEaten = false;
     public void disableLoseScreen()
     {
         if (loseScreen != null)
@@ -37,6 +39,31 @@ public class GameController : MonoBehaviour
             gameState = GameState.End;
             loseScreen.gameObject.SetActive(true); // Disable the TextMeshPro UI element
         }
+    }
+
+    public void disableMenuCanvas()
+    {
+        if (menuCanvas != null)
+        {
+            menuCanvas.gameObject.SetActive(false); // Disable the Canvas
+        }
+    }
+
+    public void enableMenuCanvas()
+    {
+        if (menuCanvas != null)
+        {
+            menuCanvas.gameObject.SetActive(true); // Enable the Canvas
+        }
+    }
+
+    public bool IsMenuCanvasActive()
+    {
+        if (menuCanvas != null)
+        {
+            return menuCanvas.gameObject.activeSelf; // Check if the Canvas is active
+        }
+        return false;
     }
 
     public void enableWinScreen()
@@ -108,16 +135,41 @@ public class GameController : MonoBehaviour
         }
     }
 
-
+    public void EmptyDraggableRow()
+    {
+        foreach (var card in draggableRow.rowObjects)
+        {
+            Destroy(card); // Optionally destroy the GameObject
+        }
+        draggableRow.rowObjects.Clear(); // Clear the list
+    }
     void Start()
     {
+        disableMenuCanvas();
         disableLoseScreen();
         deck.DealCards();
         EnterCardDrawPhase();
     }
 
-    private bool hasEaten = false;
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
 
+    public void ResumeGame()
+    {
+        disableMenuCanvas();
+    }
+
+    public void NewGame()
+    {
+        deck.CardsDealt = 0;
+        EmptyDraggableRow();
+        disableMenuCanvas();
+        disableLoseScreen();
+        deck.DealCards();
+        EnterCardDrawPhase();
+    }
     void Update()
     {
         if (gameState == GameState.End)
@@ -127,7 +179,15 @@ public class GameController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Application.Quit();
+            if (IsMenuCanvasActive())
+            {
+                disableMenuCanvas();
+            }
+            else
+            {
+                enableMenuCanvas();
+            }
+            //Application.Quit();
         }
 
         switch (gameState)
@@ -301,11 +361,11 @@ public class GameController : MonoBehaviour
                         {
                             RemoveAndAnimateCard(secondCardIndex);
                         }
-                        else
-                        {
-                            hasEaten = false;
-                            EnterEndPhase();
-                        }
+                    }
+                    else
+                    {
+                        hasEaten = false;
+                        EnterEndPhase();
                     }
                     break;
 
@@ -321,11 +381,11 @@ public class GameController : MonoBehaviour
                         {
                             RemoveAndAnimateCard(secondCardIndex);
                         }
-                        else
-                        {
-                            hasEaten = false;
-                            EnterEndPhase();
-                        }
+                    }
+                    else
+                    {
+                        hasEaten = false;
+                        EnterEndPhase();
                     }
                     break;
 
@@ -340,11 +400,11 @@ public class GameController : MonoBehaviour
                         {
                             RemoveAndAnimateCard(secondCardIndex);
                         }
-                        else
-                        {
-                            hasEaten = false;
-                            EnterEndPhase();
-                        }
+                    }
+                    else
+                    {
+                        hasEaten = false;
+                        EnterEndPhase();
                     }
                     break;
 
@@ -381,11 +441,11 @@ public class GameController : MonoBehaviour
                         {
                             RemoveAndAnimateCard(secondCardIndex);
                         }
-                        else
-                        {
-                            hasEaten = false;
-                            EnterEndPhase();
-                        }
+                    }
+                    else
+                    {
+                        hasEaten = false;
+                        EnterEndPhase();
                     }
                     break;
 
@@ -441,16 +501,15 @@ public class GameController : MonoBehaviour
                         {
                             RemoveAndAnimateCard(secondCardIndex);
                         }
-                        else
-                        {
-                            hasEaten = false;
-                            EnterEndPhase();
-                        }
+                    }
+                    else
+                    {
+                        hasEaten = false;
+                        EnterEndPhase();
                     }
                     break;
 
                 case 13:
-
                     if ((firstCardValue % 2 == 1 && secondCardValue >= 10) || (firstCardValue >= 10 && secondCardValue % 2 == 1))
                     {
                         if (firstCardValue > secondCardValue)
@@ -573,11 +632,20 @@ public class GameController : MonoBehaviour
         if (draggableRow.rowObjects.Count > 0)
         {
             GameObject lastCard = draggableRow.rowObjects[draggableRow.rowObjects.Count - 1];
+            SpriteRenderer spriteRenderer = lastCard.GetComponent<SpriteRenderer>();
+            var originalSortingOrder = spriteRenderer.sortingOrder;
+            spriteRenderer.sortingOrder = 100;
             draggableRow.rowObjects.RemoveAt(draggableRow.rowObjects.Count - 1);
             draggableRow.rowObjects.Insert(0, lastCard);
-            StartCoroutine(AnimateCardToFirstPosition(lastCard));
-            draggableRow.ArrangeObjects();
+            StartCoroutine(MoveAndArrange(lastCard, originalSortingOrder));
         }
+    }
+
+    private IEnumerator MoveAndArrange(GameObject card, int originalSortingOrder)
+    {
+        yield return StartCoroutine(AnimateCardToFirstPosition(card));
+        card.GetComponent<SpriteRenderer>().sortingOrder = originalSortingOrder; // Reset sorting order
+        draggableRow.ArrangeObjects();
     }
 
     private IEnumerator AnimateCardToFirstPosition(GameObject card)
@@ -591,7 +659,9 @@ public class GameController : MonoBehaviour
         float totalWidth = cardSpacing * (draggableRow.rowObjects.Count - 1); // 5 spaces between 6 cards
 
         SpriteRenderer spriteRenderer = card.GetComponent<SpriteRenderer>();
-        spriteRenderer.sortingOrder = 10;
+        int originalSortingOrder = spriteRenderer.sortingOrder; // Store the original sorting order
+        spriteRenderer.sortingOrder = 10; // Set a higher sorting order to ensure the card is above all others
+
         Vector3 targetPosition = new Vector3(-totalWidth / 2, 0, 0);
 
         while (elapsedTime < duration)
@@ -602,7 +672,7 @@ public class GameController : MonoBehaviour
         }
 
         card.transform.position = targetPosition; // Ensure the card reaches the target position
-        draggableRow.ArrangeObjects(); // Rearrange the row after the animation
+        spriteRenderer.sortingOrder = originalSortingOrder; // Reset the sorting order to its original value
     }
     private void RemoveAndAnimateCard(int cardIndex)
     {

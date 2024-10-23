@@ -14,6 +14,11 @@ public class Deck : MonoBehaviour
     public float dealingDuration = 0.5f; // Time to deal all cards
 
     private int cardsDealt = 0;
+    public int CardsDealt
+    {
+        get { return cardsDealt; }
+        set { cardsDealt = value; }
+    }
 
     private bool cardDrawn = false;
 
